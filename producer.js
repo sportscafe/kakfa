@@ -7,7 +7,7 @@ const client = new kafka.Client("localhost:2181", "my-client-id", {
     retries: 2
 });
  
-const producer = new kafka.HighLevelProducer(client);
+const producer = new kafka.Producer(client);
 producer.on("ready", function() {
     console.log("Kafka Producer is connected and ready.");
 });
@@ -18,7 +18,7 @@ producer.on("error", function(error) {
 });
  
 const KafkaService = {
-    sendRecord: ({ type, userId, sessionId, data, paritionId }, callback = () => {}) => {
+    sendRecord: ({ type, userId, sessionId, data, partitionId }, callback = () => {}) => {
         if (!userId) {
             return callback(new Error(`A userId must be provided.`));
         }
@@ -39,13 +39,16 @@ const KafkaService = {
             {
                 topic: "webevents.dev",
                 messages: buffer,
-                paritionId: paritionId || 0,
+                partition: partitionId || 0,
                 attributes: 1 /* Use GZip compression for the payload */
             }
         ];
  
         //Send record to Kafka and log result/error
-        producer.send(record, callback);
+        producer.send(record,  (err, data ) => {
+            if(err) console.log(err);
+            console.log(data);
+        });
     }
 };
  

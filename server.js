@@ -24,7 +24,7 @@ server.route([
         path: '/sendEvent',
         handler: function(request, h){
             const { type, userId, sessionId, partitionId} = request.query;
-            KafkaService.sendRecord({ type, userId, sessionId} );
+            KafkaService.sendRecord({ type, userId, sessionId, partitionId} );
             return "added to que";
         }
     }
