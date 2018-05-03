@@ -26,10 +26,11 @@ const KafkaService = {
         const event = {
             id: uuid.v4(),
             timestamp: Date.now(),
-            userId: userId,
-            sessionId: sessionId,
-            type: type,
-            data: data
+            userId,
+            sessionId,
+            type,
+            data,
+            partitionId
         };
  
         const buffer = new Buffer.from(JSON.stringify(event));
@@ -37,7 +38,7 @@ const KafkaService = {
         // Create a new payload
         const record = [
             {
-                topic: "webevents.dev",
+                topic: "webevents",
                 messages: buffer,
                 partition: partitionId || 0,
                 attributes: 1 /* Use GZip compression for the payload */

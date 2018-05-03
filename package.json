@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.0",
     "hapi": "^17.4.0",
     "kafka-node": "^2.6.1",
+    "kafka-node-topic-consumer": "^0.3.5",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
